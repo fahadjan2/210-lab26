@@ -16,7 +16,6 @@ void setracer(const string filename, vector<vector<vector<milliseconds>>> &durat
 void output(vector<vector<vector<milliseconds>>> durations);
 
 int main() {
-    cout << "testa2446" << endl;
     string filename = "codes.txt";
     vector<vector<vector<milliseconds>>> durations; //3D array, holds [#run][# indicating either vect, set, list][# indicating read/sort/etc duration]
     //                                                                       0 = vect, 1 = set, 2 = list           0 = read, 1 = sort, 2 = insert, 3 = delete         
