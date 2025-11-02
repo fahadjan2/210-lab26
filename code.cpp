@@ -16,11 +16,13 @@ void setracer(const string filename, vector<vector<vector<milliseconds>>> &durat
 void output(vector<vector<vector<milliseconds>>> durations);
 
 int main() {
-    cout << "test" << endl;
+    cout << "testa" << endl;
     string filename = "codes.txt";
     vector<vector<vector<milliseconds>>> durations; //3D array, holds [#run][# indicating either vect, set, list][# indicating read/sort/etc duration]
     //                                                                       0 = vect, 1 = set, 2 = list           0 = read, 1 = sort, 2 = insert, 3 = delete         
     
+    durations.resize(3);
+
     vectorracer(filename, durations);
     listracer(filename, durations);
     setracer(filename, durations);
@@ -66,10 +68,11 @@ void vectorracer(const string filename, vector<vector<vector<milliseconds>>> &du
         auto deleteduration = duration_cast<milliseconds>(end - start);
 
         //duration set
-        durations[i][0][0] = readduration;
-        durations[i][0][1] = sortduration;
-        durations[i][0][2] = insertduration;
-        durations[i][0][3] = deleteduration;
+        durations[i].resize(4);
+        durations[i][0].push_back(readduration);
+        durations[i][0].push_back(sortduration);
+        durations[i][0].push_back(insertduration);
+        durations[i][0].push_back(deleteduration);
     }
     return;
 }
@@ -104,9 +107,10 @@ void setracer(const string filename, vector<vector<vector<milliseconds>>> &durat
         auto deleteduration = duration_cast<milliseconds>(end - start);
 
         //duration set
-        durations[i][1][0].push_back(readduration);
-        durations[i][1][2].push_back(readduration);
-        durations[i][1][3].push_back(readduration);
+        durations[i].resize(4);
+        durations[i][1].push_back(readduration);
+        durations[i][1].push_back(insertduration);
+        durations[i][1].push_back(deleteduration);
     }
     return;
 }
@@ -147,10 +151,11 @@ void listracer(const string filename, vector<vector<vector<milliseconds>>> &dura
         auto deleteduration = duration_cast<milliseconds>(end - start);
 
         //duration set
-        durations[i][2][0] = readduration;
-        durations[i][2][1] = sortduration;
-        durations[i][2][2] = insertduration;
-        durations[i][2][3] = deleteduration;
+        durations[i].resize(4);
+        durations[i][2].push_back(readduration);
+        durations[i][2].push_back(sortduration);
+        durations[i][2].push_back(insertduration);
+        durations[i][2].push_back(deleteduration);
     }
     return;
 }
