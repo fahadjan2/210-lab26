@@ -13,9 +13,10 @@ using namespace std::chrono;
 void vectorracer(const string filename, vector<vector<vector<milliseconds>>> &durations);
 void listracer(const string filename, vector<vector<vector<milliseconds>>> &durations);
 void setracer(const string filename, vector<vector<vector<milliseconds>>> &durations);
-void output(vector<vector<vector<milliseconds>>> &durations);
+void output(vector<vector<vector<milliseconds>>> durations);
 
 int main() {
+    cout << "test" << endl;
     string filename = "codes.txt";
     vector<vector<vector<milliseconds>>> durations; //3D array, holds [#run][# indicating either vect, set, list][# indicating read/sort/etc duration]
     //                                                                       0 = vect, 1 = set, 2 = list           0 = read, 1 = sort, 2 = insert, 3 = delete         
@@ -103,9 +104,9 @@ void setracer(const string filename, vector<vector<vector<milliseconds>>> &durat
         auto deleteduration = duration_cast<milliseconds>(end - start);
 
         //duration set
-        durations[i][1][0] = readduration;
-        durations[i][1][2] = insertduration;
-        durations[i][1][3] = deleteduration;
+        durations[i][1][0].push_back(readduration);
+        durations[i][1][2].push_back(readduration);
+        durations[i][1][3].push_back(readduration);
     }
     return;
 }
@@ -155,12 +156,15 @@ void listracer(const string filename, vector<vector<vector<milliseconds>>> &dura
 }
 
 //Outputs the three different durations
-void output(Durations vDur, Durations lDur, Durations sDur) {
+void output(vector<vector<vector<milliseconds>>> durations) {
     //Output
     int ssortduration = -1;
-    cout << "Operation    Vector\tList\tSet" << endl;
-    cout << "Read\t\t" << vDur.read.count() << "\t" << lDur.read.count() << "\t" << sDur.read.count() << endl;
-    cout << "Sort\t\t" << vDur.sort.count() << "\t" << lDur.sort.count() << "\t" << ssortduration << endl;
-    cout << "Insert\t\t" << vDur.insert.count() << "\t" << lDur.insert.count() << "\t" << sDur.insert.count() << endl;
-    cout << "Delete\t\t" << vDur.delet.count() << "\t" << lDur.delet.count() << "\t" << sDur.delet.count() << endl;
+    for (int i = 0; i < 15; i++) {
+        cout << "Run #" << i << ":" << endl;
+        cout << "Operation    Vector\tList\tSet" << endl;
+        cout << "Read\t\t" << durations[i][0][0].count() << "\t" << durations[i][2][0].count() << "\t" << durations[i][1][0].count() << endl;
+        cout << "Sort\t\t" << durations[i][0][1].count() << "\t" << durations[i][2][1].count() << "\t" << ssortduration << endl;
+        cout << "Insert\t\t" << durations[i][0][2].count() << "\t" << durations[i][2][2].count() << "\t" << durations[i][1][2].count() << endl;
+        cout << "Delete\t\t" << durations[i][0][3].count() << "\t" << durations[i][2][3].count() << "\t" << durations[i][0][3].count() << endl;
+    }
 }
