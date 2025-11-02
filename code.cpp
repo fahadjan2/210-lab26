@@ -10,16 +10,22 @@
 using namespace std;
 using namespace std::chrono;
 
-void vectorracer(const string filename, vector<vector<vector<microseconds>>> &durations);
-void listracer(const string filename, vector<vector<vector<microseconds>>> &durations);
-void setracer(const string filename, vector<vector<vector<microseconds>>> &durations);
-void output(vector<vector<vector<microseconds>>> durations);
+void vectorracer(const string filename, vector<vector<vector<milliseconds>>> &durations);
+void listracer(const string filename, vector<vector<vector<milliseconds>>> &durations);
+void setracer(const string filename, vector<vector<vector<milliseconds>>> &durations);
+void output(vector<vector<vector<milliseconds>>> durations);
 
 int main() {
-    cout << "testa244" << endl;
+    cout << "testa2446" << endl;
     string filename = "codes.txt";
-    vector<vector<vector<microseconds>>> durations; //3D array, holds [#run][# indicating either vect, set, list][# indicating read/sort/etc duration]
+    vector<vector<vector<milliseconds>>> durations; //3D array, holds [#run][# indicating either vect, set, list][# indicating read/sort/etc duration]
     //                                                                       0 = vect, 1 = set, 2 = list           0 = read, 1 = sort, 2 = insert, 3 = delete         
+    
+    //Resizing
+    durations.resize(15);
+    for (int i = 0; i < 15; i++) {
+        durations[i].resize(3);
+    }
 
     vectorracer(filename, durations);
     listracer(filename, durations);
@@ -30,7 +36,7 @@ int main() {
     return 0;
 }
 
-void vectorracer(const string filename, vector<vector<vector<microseconds>>> &durations) {
+void vectorracer(const string filename, vector<vector<vector<milliseconds>>> &durations) {
     for (int i = 0; i < 15; i++) {
         vector<string> vect;
         //Read
@@ -41,13 +47,13 @@ void vectorracer(const string filename, vector<vector<vector<microseconds>>> &du
             vect.push_back(value);
         };
         auto end = high_resolution_clock::now();
-        auto readduration = duration_cast<microseconds>(end - start);
+        auto readduration = duration_cast<milliseconds>(end - start);
 
         //Sort
         start = high_resolution_clock::now();
         sort(vect.begin(), vect.end());
         end = high_resolution_clock::now();
-        auto sortduration = duration_cast<microseconds>(end - start);
+        auto sortduration = duration_cast<milliseconds>(end - start);
             
         //Insert
         value = "TESTCODE";
@@ -56,14 +62,14 @@ void vectorracer(const string filename, vector<vector<vector<microseconds>>> &du
         advance(it, vect.size() / 2);
         vect.insert(it, value);
         end = high_resolution_clock::now();
-        auto insertduration = duration_cast<microseconds>(end - start);
+        auto insertduration = duration_cast<milliseconds>(end - start);
 
         //Delete
         start = high_resolution_clock::now();
         it = vect.begin();
         vect.erase(it);
         end = high_resolution_clock::now();
-        auto deleteduration = duration_cast<microseconds>(end - start);
+        auto deleteduration = duration_cast<milliseconds>(end - start);
 
         //duration set
         durations[i][0].push_back(readduration);
@@ -74,7 +80,7 @@ void vectorracer(const string filename, vector<vector<vector<microseconds>>> &du
     return;
 }
 
-void setracer(const string filename, vector<vector<vector<microseconds>>> &durations) {
+void setracer(const string filename, vector<vector<vector<milliseconds>>> &durations) {
     for (int i = 0; i < 15; i++) {
         set<string> set;
         //Read
@@ -85,7 +91,7 @@ void setracer(const string filename, vector<vector<vector<microseconds>>> &durat
             set.insert(value);
         };
         auto end = high_resolution_clock::now();
-        auto readduration = duration_cast<microseconds>(end - start);
+        auto readduration = duration_cast<milliseconds>(end - start);
 
         //Insert
         value = "TESTCODE";
@@ -94,14 +100,14 @@ void setracer(const string filename, vector<vector<vector<microseconds>>> &durat
         advance(it, set.size() / 2);
         set.insert(it, value);
         end = high_resolution_clock::now();
-        auto insertduration = duration_cast<microseconds>(end - start);
+        auto insertduration = duration_cast<milliseconds>(end - start);
 
         //Delete
         start = high_resolution_clock::now();
         it = set.begin();
         set.erase(it);
         end = high_resolution_clock::now();
-        auto deleteduration = duration_cast<microseconds>(end - start);
+        auto deleteduration = duration_cast<milliseconds>(end - start);
 
         //duration set
         durations[i][1].push_back(readduration);
@@ -111,7 +117,7 @@ void setracer(const string filename, vector<vector<vector<microseconds>>> &durat
     return;
 }
 
-void listracer(const string filename, vector<vector<vector<microseconds>>> &durations) {
+void listracer(const string filename, vector<vector<vector<milliseconds>>> &durations) {
     for (int i = 0; i < 15; i++) {
         list<string> list;
         //Read
@@ -122,13 +128,13 @@ void listracer(const string filename, vector<vector<vector<microseconds>>> &dura
             list.push_back(value);
         };
         auto end = high_resolution_clock::now();
-        auto readduration = duration_cast<microseconds>(end - start);
+        auto readduration = duration_cast<milliseconds>(end - start);
 
         //Sort
         start = high_resolution_clock::now();
         list.sort();
         end = high_resolution_clock::now();
-        auto sortduration = duration_cast<microseconds>(end - start);
+        auto sortduration = duration_cast<milliseconds>(end - start);
 
         //Insert
         value = "TESTCODE";
@@ -137,14 +143,14 @@ void listracer(const string filename, vector<vector<vector<microseconds>>> &dura
         advance(it, list.size() / 2);
         list.insert(it, value);
         end = high_resolution_clock::now();
-        auto insertduration = duration_cast<microseconds>(end - start);
+        auto insertduration = duration_cast<milliseconds>(end - start);
 
         //Delete
         start = high_resolution_clock::now();
         it = list.begin();
         list.erase(it);
         end = high_resolution_clock::now();
-        auto deleteduration = duration_cast<microseconds>(end - start);
+        auto deleteduration = duration_cast<milliseconds>(end - start);
 
         //duration set
         durations[i][2].push_back(readduration);
@@ -156,7 +162,7 @@ void listracer(const string filename, vector<vector<vector<microseconds>>> &dura
 }
 
 //Outputs the three different durations
-void output(vector<vector<vector<microseconds>>> durations) {
+void output(vector<vector<vector<milliseconds>>> durations) {
     //Output
     int ssortduration = -1;
     for (int i = 0; i < 15; i++) {
